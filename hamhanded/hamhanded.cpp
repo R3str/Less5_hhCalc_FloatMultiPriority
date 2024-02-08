@@ -29,6 +29,7 @@
 long double hhCalcFloat(const char* str)
 {
 	char c;
+	double div = 10.0;
 
 	long double numbers[128] = { 0 };
 	char signs[128] = { 0 };
@@ -43,6 +44,10 @@ long double hhCalcFloat(const char* str)
 		{
 			if (c == '+' || c == '-' || c == '*' || c == '/') {
 				signs[++i] = c;
+
+				floatPiece = false;
+				div = 10.0;
+
 				continue;
 			}
 			else if (c == '.') {
@@ -54,8 +59,8 @@ long double hhCalcFloat(const char* str)
 		if(!floatPiece)
 			numbers[i] = numbers[i] * 10 + (c - '0');
 		else {
-			numbers[i] = numbers[i] + (c - '0') / 10.0;
-			floatPiece = false;
+			numbers[i] = numbers[i] + (c - '0') / div;
+			div *= 10;
 		}
 	}
 
